@@ -4,7 +4,8 @@ import OptionsSync from 'webext-options-sync';
 
 const optionsStorage = new OptionsSync({
 	defaults: {
-		serverPort: 4001
+		serverPort: 4001,
+		serverIP: 'localhost',
 	}
 });
 
@@ -68,8 +69,9 @@ function handlePortListenerErrors(listener) {
 
 chrome.runtime.onConnect.addListener(handlePortListenerErrors(async port => {
 	console.assert(port.name === 'new-field');
-	const {serverPort} = await optionsStorage.getAll();
-	const response = await fetch(`http://localhost:${serverPort}`);
+	const {serverPort, serverIP} = await optionsStorage.getAll();
+	const response = await fetch(`http://${serverIP}:${serverPort}`);
+	console.log("connecting to ${serverIP}:{serverPort}");
 	const {ProtocolVersion, WebSocketPort} = await response.json();
 	if (ProtocolVersion !== 1) {
 		throw new Error('Incompatible protocol version');

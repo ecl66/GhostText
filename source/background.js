@@ -5,7 +5,7 @@ import OptionsSync from 'webext-options-sync';
 const optionsStorage = new OptionsSync({
 	defaults: {
 		serverPort: 4001,
-		serverIP: 'localhost',
+		serverIP: '100.115.92.206',
 	}
 });
 
